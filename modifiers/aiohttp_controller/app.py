@@ -33,8 +33,8 @@ async def update_modifier(request: web.Request):
 
 
 app = web.Application()
-app.router.add_get('/{login}', fetch_player)
-app.router.add_get('/{login}/modifiers', fetch_modifiers)
+app.router.add_get('/fetch/{login}', fetch_player)
+app.router.add_get('/fetch/{login}/modifiers', fetch_modifiers)
 app.router.add_post('/update', update_modifier)
 
 web.run_app(app, host="127.0.0.1")
