@@ -12,7 +12,7 @@ setup(
     author_email='',
     description='',
     install_requires=[
-        "motor", "pydantic", 'aiohttp'
+        "motor", "pytest-asyncio", "pydantic", 'aiohttp'
     ],
     extras_require={
         'dev': [

@@ -23,7 +23,7 @@ ARMOR_MODIFIERS = {
 async def __get_wound_almost_cured(wound_level: WoundLevel) -> Optional[int]:
     index = WOUND_LEVELS_ORDERED.index(wound_level) - 1
 
-    if 0 > index > len(WOUND_LEVELS_ORDERED):
+    if index < 0 or index > len(WOUND_LEVELS_ORDERED):
         return 0
 
     return WOUND_MODIFIERS.get(WOUND_LEVELS_ORDERED[index], 0)
