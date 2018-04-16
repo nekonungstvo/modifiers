@@ -60,7 +60,7 @@ async def get_roll_modifiers(username: str) -> schema.ModifiersSummary:
     """
     Fetch wounds and armor and return appropriate roll modifiers.
     :param username: Username.
-    :return: Roll modifiers
+    :return: Roll modifiers.
     """
     character = await database.get_character(username)
 
