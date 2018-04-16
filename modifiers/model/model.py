@@ -20,7 +20,12 @@ ARMOR_MODIFIERS = {
 }
 
 
-async def __get_wound_almost_cured(wound_level: WoundLevel) -> Optional[int]:
+async def __get_almost_cured_modifier(wound_level: WoundLevel) -> Optional[int]:
+    """
+    Get modifier for almost cured wound.
+    :param wound_level: Wound level.
+    :return: Modifier or nothing if can do nothing.
+    """
     index = WOUND_LEVELS_ORDERED.index(wound_level) - 1
 
     if index < 0 or index > len(WOUND_LEVELS_ORDERED):
@@ -29,11 +34,16 @@ async def __get_wound_almost_cured(wound_level: WoundLevel) -> Optional[int]:
     return WOUND_MODIFIERS.get(WOUND_LEVELS_ORDERED[index], 0)
 
 
-async def __get_wound_modifiers(wounds: List[schema.Wound]) -> Optional[int]:
+async def __get_wound_modifier(wounds: List[schema.Wound]) -> Optional[int]:
+    """
+    Get modifier for wounds.
+    :param wounds: List of wounds.
+    :return: Modifier or nothing if can do nothing.
+    """
     final_modifier = 0
 
     for wound in wounds:
-        modifier = await __get_wound_almost_cured(wound.type) \
+        modifier = await __get_almost_cured_modifier(wound.type) \
             if wound.almost_cured \
             else WOUND_MODIFIERS.get(wound.type, 0)
 
@@ -47,6 +57,11 @@ async def __get_wound_modifiers(wounds: List[schema.Wound]) -> Optional[int]:
 
 
 async def get_roll_modifiers(username: str) -> schema.ModifiersSummary:
+    """
+    Fetch wounds and armor and return appropriate roll modifiers.
+    :param username: Username.
+    :return: Roll modifiers
+    """
     character = await database.get_character(username)
 
     summary = schema.ModifiersSummary()
@@ -55,7 +70,7 @@ async def get_roll_modifiers(username: str) -> schema.ModifiersSummary:
         return summary
 
     if character.wounds:
-        summary.wounds = await __get_wound_modifiers(character.wounds)
+        summary.wounds = await __get_wound_modifier(character.wounds)
 
     summary.armor = ARMOR_MODIFIERS.get(character.armor, 0)
 
