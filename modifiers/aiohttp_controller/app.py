@@ -9,4 +9,10 @@ app.add_subapp("/character", character_app)
 app.add_subapp("/armor", armor_app)
 app.add_subapp("/wound", wound_app)
 
-web.run_app(app, host="127.0.0.1")
+
+def run():
+    web.run_app(app, port=8080)
+
+
+if __name__ == "__main__":
+    run()
