@@ -13,6 +13,8 @@ services:
     restart: always
     networks:
       - modifiers
+    volumes:
+      - /srv/www/modifiers:/data/db
 
 networks:
   modifiers:
