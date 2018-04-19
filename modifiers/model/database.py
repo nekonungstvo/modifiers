@@ -8,27 +8,30 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from modifiers.model import schema
 
-__collection = None
-
 MONGO_HOST = "modifiers-mongo" if os.getenv("IS_PROD", "0") != "0" else "127.0.0.1"
 
 
+def init_db():
+    global __client
+    __client = AsyncIOMotorClient(MONGO_HOST)
+    __client.modifiers["armor"].create_index("username")
+    __client.modifiers["wound"].create_index("username")
+
+
 async def get_db(collection: str) -> AgnosticCollection:
-    global __collection
-    if not __collection:
-        client = AsyncIOMotorClient(MONGO_HOST)
-        __collection = client.modifiers[collection]
-        __collection.create_index("username")
-    return __collection
+    global __client
+    if not __client:
+        init_db()
+    return __client.modifiers[collection]
 
 
-async def get_character(username: str) -> Optional[schema.Armor]:
+async def get_armor(username: str) -> Optional[schema.Armor]:
     collection = await get_db("armor")
     data = await collection.find_one({"username": username})
     return schema.Armor(**data) if data else None
 
 
-async def save_character(character: schema.Armor):
+async def save_armor(character: schema.Armor):
     collection = await get_db("armor")
     await collection.update_one(
         {"username": character.username},
