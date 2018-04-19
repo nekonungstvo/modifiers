@@ -17,11 +17,14 @@ setup(
         ],
     },
     install_requires=[
-        "motor", "pytest-asyncio", "pydantic", 'aiohttp'
+        "aiohttp==3.1.3",
+        "motor==1.2.1",
+        "pydantic==0.8"
     ],
     extras_require={
         'dev': [
-            'pytest'
+            "pytest==3.5.0",
+            "pytest-asyncio==0.8.0"
         ]
     }
 )
