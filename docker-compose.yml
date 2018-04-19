@@ -5,3 +5,15 @@ services:
     restart: always
     ports:
       - 8080:8080
+    networks:
+      - modifiers
+
+  modifiers-mongo:
+    image: mongo:3.7
+    restart: always
+    networks:
+      - modifiers
+
+networks:
+  modifiers:
+    driver: bridge

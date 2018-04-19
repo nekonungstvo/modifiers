@@ -1,3 +1,4 @@
+import os
 from typing import Optional, List
 
 import pymongo
@@ -9,11 +10,15 @@ from modifiers.model import schema
 
 __collection = None
 
+MONGO_HOST = "modifiers-mongo" if os.getenv("IS_PROD", "0") != "0" else "127.0.0.1"
+
+print(os.getenv("IS_PROD", "0"))
+print(MONGO_HOST)
 
 async def get_db(collection: str) -> AgnosticCollection:
     global __collection
     if not __collection:
-        client = AsyncIOMotorClient()
+        client = AsyncIOMotorClient(MONGO_HOST)
         __collection = client.modifiers[collection]
         __collection.create_index("username")
     return __collection
