@@ -62,17 +62,11 @@ async def get_roll_modifiers(username: str) -> schema.CharacterSummary:
     :param username: Username.
     :return: Roll modifiers.
     """
-    character = await database.get_armor(username)
+    armor = await database.get_armor(username)
     wounds = await database.get_wounds(username)
 
     summary = schema.CharacterSummary()
-
-    if not character:
-        return summary
-
-    if wounds:
-        summary.wounds = await __get_wound_modifier(wounds)
-
-    summary.armor = ARMOR_MODIFIERS.get(character.type, 0)
+    summary.wounds = await __get_wound_modifier(wounds)
+    summary.armor = ARMOR_MODIFIERS.get(getattr(armor, "type", None), 0)
 
     return summary
