@@ -56,22 +56,23 @@ async def __get_wound_modifier(wounds: List[schema.Wound]) -> Optional[int]:
     return final_modifier
 
 
-async def get_roll_modifiers(username: str) -> schema.ModifiersSummary:
+async def get_roll_modifiers(username: str) -> schema.CharacterSummary:
     """
     Fetch wounds and armor and return appropriate roll modifiers.
     :param username: Username.
     :return: Roll modifiers.
     """
     character = await database.get_character(username)
+    wounds = await database.get_wounds(username)
 
-    summary = schema.ModifiersSummary()
+    summary = schema.CharacterSummary()
 
     if not character:
         return summary
 
-    if character.wounds:
-        summary.wounds = await __get_wound_modifier(character.wounds)
+    if wounds:
+        summary.wounds = await __get_wound_modifier(wounds)
 
-    summary.armor = ARMOR_MODIFIERS.get(character.armor, 0)
+    summary.armor = ARMOR_MODIFIERS.get(character.type, 0)
 
     return summary

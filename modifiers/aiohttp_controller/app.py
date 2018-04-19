@@ -1,40 +1,12 @@
 from aiohttp import web
 
-from modifiers.model import database, model
-from modifiers.model.schema import Character
-
-
-async def fetch_player(request):
-    login = request.match_info.get('login')
-
-    character = await database.get_character(login)
-
-    if not character:
-        character = Character(username=login)
-
-    return web.json_response(character.dict())
-
-
-async def fetch_modifiers(request):
-    login = request.match_info.get('login')
-    summary = await model.get_roll_modifiers(login)
-    return web.json_response(summary.dict())
-
-
-async def update_modifier(request: web.Request):
-    data = await request.json()
-    character = Character(**data)
-
-    await database.save_character(character)
-
-    return web.json_response({
-        "status: ""ok"
-    })
-
+from modifiers.aiohttp_controller.armor import armor_app
+from modifiers.aiohttp_controller.character import character_app
+from modifiers.aiohttp_controller.wound import wound_app
 
 app = web.Application()
-app.router.add_get('/fetch/{login}', fetch_player)
-app.router.add_get('/fetch/{login}/modifiers', fetch_modifiers)
-app.router.add_post('/update', update_modifier)
+app.add_subapp("/character", character_app)
+app.add_subapp("/armor", armor_app)
+app.add_subapp("/wound", wound_app)
 
 web.run_app(app, host="127.0.0.1")

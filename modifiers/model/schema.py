@@ -1,5 +1,5 @@
 import enum
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -19,18 +19,20 @@ class ArmorType(enum.IntEnum):
 
 
 class Wound(BaseModel):
-    type: WoundLevel
-    description: str = ""
+    id: Optional[str] = None
+    username: str
 
+    type: WoundLevel
+
+    description: str = ""
     almost_cured: bool = False
 
 
-class Character(BaseModel):
+class Armor(BaseModel):
     username: str
-    armor: Optional[ArmorType] = None
-    wounds: List[Wound] = []
+    type: Optional[ArmorType] = None
 
 
-class ModifiersSummary(BaseModel):
+class CharacterSummary(BaseModel):
     wounds: int = 0
     armor: int = 0
