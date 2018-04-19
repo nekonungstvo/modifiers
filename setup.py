@@ -11,6 +11,11 @@ setup(
     author='xunto',
     author_email='',
     description='',
+    entry_points={
+        "console_scripts": [
+            "modifiers=modifiers.aiohttp_controller.app:run"
+        ],
+    },
     install_requires=[
         "motor", "pytest-asyncio", "pydantic", 'aiohttp'
     ],
