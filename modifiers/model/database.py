@@ -12,8 +12,6 @@ __collection = None
 
 MONGO_HOST = "modifiers-mongo" if os.getenv("IS_PROD", "0") != "0" else "127.0.0.1"
 
-print(os.getenv("IS_PROD", "0"))
-print(MONGO_HOST)
 
 async def get_db(collection: str) -> AgnosticCollection:
     global __collection
