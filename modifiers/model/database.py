@@ -68,6 +68,14 @@ async def get_wound(wound_id: str) -> Optional[schema.Wound]:
     ) if data else None
 
 
+async def delete_wound(wound_id: str) -> None:
+    if not ObjectId.is_valid(wound_id):
+        return
+
+    collection = await get_db("wounds")
+    await collection.delete_one({"_id": ObjectId(wound_id)})
+
+
 async def save_wound(wound: schema.Wound) -> None:
     collection = await get_db("wounds")
     await collection.update_one(

@@ -18,9 +18,19 @@ async def fetch_wound(request):
     return web.json_response(wound.dict())
 
 
+async def delete_wound(request):
+    wound_id = request.match_info.get('id')
+
+    wound = await database.delete_wound(wound_id)
+
+    return web.json_response(wound.dict())
+
+
 async def update_wound(request):
+    wound_id = request.match_info.get('id', None)
+
     data = await request.json()
-    wound = Wound(**data)
+    wound = Wound(id=wound_id, **data)
 
     await database.save_wound(wound)
 
@@ -29,6 +39,8 @@ async def update_wound(request):
     })
 
 
-wound_app.router.add_get('/{id}/fetch', fetch_wound)
 wound_app.router.add_post('/create', update_wound)
-wound_app.router.add_post('/update', update_wound)
+
+wound_app.router.add_get('/{id}/fetch', fetch_wound)
+wound_app.router.add_post('/{id}/update', update_wound)
+wound_app.router.add_get('/{id}/delete', fetch_wound)
