@@ -43,4 +43,4 @@ wound_app.router.add_post('/create', update_wound)
 
 wound_app.router.add_get('/{id}/fetch', fetch_wound)
 wound_app.router.add_post('/{id}/update', update_wound)
-wound_app.router.add_get('/{id}/delete', fetch_wound)
+wound_app.router.add_get('/{id}/delete', delete_wound)
