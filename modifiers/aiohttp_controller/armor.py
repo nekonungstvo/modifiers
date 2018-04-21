@@ -16,8 +16,10 @@ async def fetch_character(request):
 
 
 async def update_character(request: web.Request):
+    login = request.match_info.get('login')
+
     data = await request.json()
-    character = Armor(**data)
+    character = Armor(username=login, **data)
 
     await database.save_armor(character)
 
@@ -28,4 +30,4 @@ async def update_character(request: web.Request):
 
 armor_app = web.Application()
 armor_app.router.add_get('/{login}/fetch', fetch_character)
-armor_app.router.add_post('/update', update_character)
+armor_app.router.add_post('/{login}/update', update_character)
