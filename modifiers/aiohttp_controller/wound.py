@@ -21,10 +21,11 @@ async def fetch_wound(request):
 async def delete_wound(request):
     wound_id = request.match_info.get('id')
 
-    wound = await database.delete_wound(wound_id)
+    await database.delete_wound(wound_id)
 
-    return web.json_response(wound.dict())
-
+    return web.json_response({
+        "status": "ok"
+    })
 
 async def update_wound(request):
     wound_id = request.match_info.get('id', None)
