@@ -45,6 +45,7 @@ async def get_wounds(username: str) -> List[schema.Wound]:
 
     result = collection \
         .find({"username": username}) \
+        .sort("type", pymongo.ASCENDING) \
         .sort("_id", pymongo.DESCENDING)
 
     return [

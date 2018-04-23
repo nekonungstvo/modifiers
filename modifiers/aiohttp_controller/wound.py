@@ -7,7 +7,7 @@ from modifiers.model.schema import Wound
 wound_app = web.Application()
 
 
-async def fetch_wound(request):
+async def get_wound(request):
     wound_id = request.match_info.get('id')
 
     wound = await database.get_wound(wound_id)
@@ -27,6 +27,7 @@ async def delete_wound(request):
         "status": "ok"
     })
 
+
 async def update_wound(request):
     wound_id = request.match_info.get('id', None)
 
@@ -42,6 +43,6 @@ async def update_wound(request):
 
 wound_app.router.add_post('/create', update_wound)
 
-wound_app.router.add_get('/{id}/fetch', fetch_wound)
+wound_app.router.add_get('/{id}/fetch', get_wound)
 wound_app.router.add_post('/{id}/update', update_wound)
 wound_app.router.add_get('/{id}/delete', delete_wound)
