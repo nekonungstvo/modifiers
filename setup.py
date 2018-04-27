@@ -4,7 +4,7 @@ from setuptools import find_packages
 
 setup(
     name='modifiers',
-    version='0.0.0',
+    version='1.0.0',
     packages=find_packages(exclude=["tests"]),
     url='https://konungstvo.ru',
     license='GPLv3',
@@ -13,7 +13,7 @@ setup(
     description='',
     entry_points={
         "console_scripts": [
-            "modifiers=modifiers.aiohttp_controller.app:run"
+            "modifiers=modifiers.aiohttp_controller.app.py:run"
         ],
     },
     install_requires=[
