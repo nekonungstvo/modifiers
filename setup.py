@@ -13,7 +13,7 @@ setup(
     description='',
     entry_points={
         "console_scripts": [
-            "modifiers=modifiers.aiohttp_controller.app.py:run"
+            "modifiers=modifiers.aiohttp_controller.app:run"
         ],
     },
     install_requires=[
