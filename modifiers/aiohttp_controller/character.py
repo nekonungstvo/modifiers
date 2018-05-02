@@ -1,6 +1,7 @@
 from aiohttp import web
 
-from modifiers.model import database, model
+from modifiers.aiohttp_controller import serialization
+from modifiers.model import model, database
 
 
 async def fetch_wounds(request):
@@ -8,16 +9,13 @@ async def fetch_wounds(request):
 
     wounds = await database.get_wounds(login)
 
-    return web.json_response([
-        wound.dict()
-        for wound in wounds
-    ])
+    return web.json_response(wounds, dumps=serialization.dumps)
 
 
 async def fetch_modifiers(request):
     login = request.match_info.get('login')
     summary = await model.get_roll_modifiers(login)
-    return web.json_response(summary.dict())
+    return web.json_response(summary, dumps=serialization.dumps)
 
 
 character_app = web.Application()

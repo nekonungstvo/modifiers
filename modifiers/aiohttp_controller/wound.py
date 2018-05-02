@@ -1,6 +1,7 @@
 from aiohttp import web
 from aiohttp.web_exceptions import HTTPNotFound
 
+from modifiers.aiohttp_controller import serialization
 from modifiers.model import database
 from modifiers.model.schema import Wound
 
@@ -15,7 +16,7 @@ async def get_wound(request):
     if not wound:
         raise HTTPNotFound
 
-    return web.json_response(wound.dict())
+    return web.json_response(wound, dumps=serialization.dumps)
 
 
 async def delete_wound(request):

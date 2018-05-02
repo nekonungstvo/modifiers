@@ -1,21 +1,22 @@
+import datetime
 import enum
 from typing import Optional
 
 from pydantic import BaseModel
 
 
-class WoundLevel(enum.IntEnum):
-    SCRATCH = 0
-    LIGHT = 1
-    SEVERE = 2
-    INCAPACITATED = 3
-    NEAR_DEATH = 4
+class WoundLevel(enum.Enum):
+    SCRATCH = "scratch"
+    LIGHT = "light"
+    SEVERE = "severe"
+    INCAPACITATED = "incapacitated"
+    NEAR_DEATH = "near_death"
 
 
-class ArmorType(enum.IntEnum):
-    LIGHT = 0
-    MEDIUM = 1
-    HEAVY = 2
+class ArmorType(enum.Enum):
+    LIGHT = "light"
+    MEDIUM = "medium"
+    HEAVY = "heavy"
 
 
 class Wound(BaseModel):
@@ -26,6 +27,9 @@ class Wound(BaseModel):
 
     description: str = ""
     almost_cured: bool = False
+
+    received: datetime.date
+    valid_through: Optional[datetime.date] = None
 
 
 class Armor(BaseModel):
