@@ -60,12 +60,30 @@ async def get_wound(wound_id: str) -> Optional[schema.Wound]:
     if not ObjectId.is_valid(wound_id):
         return None
 
+    object_id = ObjectId(wound_id)
+
     collection = await get_db("wounds")
-    data = await collection.find_one({"_id": ObjectId(wound_id)})
-    return schema.Wound(
-        id=str(data["_id"]),
+    data = await collection.find_one({"_id": object_id})
+    return schema.Wound(**{
+        "id": str(data["_id"]),
+        "created_at": object_id.generation_time.date(),
         **data
-    ) if data else None
+    }) if data else None
+
+
+async def save_wound(wound: schema.Wound) -> None:
+    collection = await get_db("wounds")
+    await collection.update_one(
+        {"_id": ObjectId(wound.id)},
+        {
+            "$set": {
+                "createdAt": wound.created_at,
+                "expireAt": wound.expire_at,
+                **wound.dict(exclude={"id"}),
+            }
+        },
+        upsert=True
+    )
 
 
 async def delete_wound(wound_id: str) -> None:
@@ -74,12 +92,3 @@ async def delete_wound(wound_id: str) -> None:
 
     collection = await get_db("wounds")
     await collection.delete_one({"_id": ObjectId(wound_id)})
-
-
-async def save_wound(wound: schema.Wound) -> None:
-    collection = await get_db("wounds")
-    await collection.update_one(
-        {"_id": ObjectId(wound.id)},
-        {"$set": wound.dict(exclude={"id"})},
-        upsert=True
-    )

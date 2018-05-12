@@ -28,8 +28,8 @@ class Wound(BaseModel):
     description: str = ""
     almost_cured: bool = False
 
-    received: datetime.date
-    valid_through: Optional[datetime.date] = None
+    created_at: datetime.date
+    expire_at: Optional[datetime.date] = None
 
 
 class Armor(BaseModel):
