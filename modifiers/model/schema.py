@@ -6,17 +6,17 @@ from pydantic import BaseModel
 
 
 class WoundLevel(enum.Enum):
-    SCRATCH = "scratch"
-    LIGHT = "light"
-    SEVERE = "severe"
-    INCAPACITATED = "incapacitated"
-    NEAR_DEATH = "near_death"
+    SCRATCH = 0
+    LIGHT = 1
+    SEVERE = 2
+    INCAPACITATED = 3
+    NEAR_DEATH = 4
 
 
 class ArmorType(enum.Enum):
-    LIGHT = "light"
-    MEDIUM = "medium"
-    HEAVY = "heavy"
+    LIGHT = 0
+    MEDIUM = 1
+    HEAVY = 2
 
 
 class Wound(BaseModel):

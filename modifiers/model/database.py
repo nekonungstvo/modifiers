@@ -1,5 +1,5 @@
 import os
-from typing import Optional, List
+from typing import Optional, List, Dict
 
 import pymongo
 from bson import ObjectId
@@ -40,6 +40,16 @@ async def save_armor(character: schema.Armor):
     )
 
 
+async def record_to_wound(record: Dict) -> schema.Wound:
+    object_id: ObjectId = record["_id"]
+
+    return schema.Wound(**{
+        "id": str(object_id),
+        "created_at": object_id.generation_time.date(),
+        **record
+    })
+
+
 async def get_wounds(username: str) -> List[schema.Wound]:
     collection = await get_db("wounds")
 
@@ -48,10 +58,7 @@ async def get_wounds(username: str) -> List[schema.Wound]:
         .sort([("type", pymongo.DESCENDING), ("_id", pymongo.DESCENDING)])
 
     return [
-        schema.Wound(
-            id=str(data["_id"]),
-            **data
-        )
+        await record_to_wound(data)
         async for data in result
     ]
 
@@ -64,11 +71,8 @@ async def get_wound(wound_id: str) -> Optional[schema.Wound]:
 
     collection = await get_db("wounds")
     data = await collection.find_one({"_id": object_id})
-    return schema.Wound(**{
-        "id": str(data["_id"]),
-        "created_at": object_id.generation_time.date(),
-        **data
-    }) if data else None
+
+    return await record_to_wound(data) if data else None
 
 
 async def save_wound(wound: schema.Wound) -> None:
