@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 class UniversalEncoder(json.JSONEncoder):
     ENCODER_BY_TYPE = {
-        datetime.date: lambda o: o.isoformat(),
+        datetime.datetime: lambda o: o.isoformat(),
         Enum: lambda o: o.value,
         BaseModel: lambda o: o.dict()
     }

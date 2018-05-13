@@ -28,12 +28,12 @@ class Wound(BaseModel):
     description: str = ""
     almost_cured: bool = False
 
-    created_at: datetime.date
-    expire_at: Optional[datetime.date] = None
+    created_at: datetime.datetime
+    expire_at: Optional[datetime.datetime] = None
 
     @validator("created_at", pre=True, always=True)
     def set_created_at_today(cls, created_at):
-        return created_at or datetime.date.today()
+        return created_at or datetime.datetime.now()
 
 
 class Armor(BaseModel):
