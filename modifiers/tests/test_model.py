@@ -1,5 +1,3 @@
-from datetime import date
-
 import pytest
 
 from modifiers.model import model
@@ -23,13 +21,11 @@ async def test_wounds():
             id="id1",
             username="somebody",
             type=WoundLevel.SEVERE,
-            created_at=date.today()
         ),
         schema.Wound(
             id="id2",
             username="somebody",
             type=WoundLevel.LIGHT,
-            created_at=date.today()
         ),
     ]) == -2
 
@@ -39,13 +35,11 @@ async def test_wounds():
             username="somebody",
             type=WoundLevel.SEVERE,
             almost_cured=True,
-            created_at=date.today()
         ),
         schema.Wound(
             id="id2",
             username="somebody",
             type=WoundLevel.LIGHT,
-            created_at=date.today()
         ),
     ]) == -1
 
@@ -55,6 +49,5 @@ async def test_wounds():
             username="somebody",
             type=WoundLevel.NEAR_DEATH,
             almost_cured=True,
-            created_at=date.today()
         )
     ]) is None
