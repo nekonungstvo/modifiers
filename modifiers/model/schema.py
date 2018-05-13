@@ -5,7 +5,7 @@ from typing import Optional
 from pydantic import BaseModel, validator
 
 
-class WoundLevel(enum.Enum):
+class WoundLevel(enum.IntEnum):
     SCRATCH = 0
     LIGHT = 1
     SEVERE = 2
@@ -13,7 +13,7 @@ class WoundLevel(enum.Enum):
     NEAR_DEATH = 4
 
 
-class ArmorType(enum.Enum):
+class ArmorType(enum.IntEnum):
     LIGHT = 0
     MEDIUM = 1
     HEAVY = 2
