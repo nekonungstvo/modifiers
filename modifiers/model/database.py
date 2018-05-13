@@ -45,7 +45,7 @@ async def record_to_wound(record: Dict) -> schema.Wound:
 
     return schema.Wound(**{
         "id": str(object_id),
-        "created_at": object_id.generation_time.date(),
+        "created_at": object_id.generation_time,
         **record
     })
 
