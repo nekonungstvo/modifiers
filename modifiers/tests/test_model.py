@@ -20,12 +20,12 @@ async def test_wounds():
         schema.Wound(
             id="id1",
             username="somebody",
-            type=WoundLevel.SEVERE
+            type=WoundLevel.SEVERE,
         ),
         schema.Wound(
             id="id2",
             username="somebody",
-            type=WoundLevel.LIGHT
+            type=WoundLevel.LIGHT,
         ),
     ]) == -2
 
@@ -34,12 +34,12 @@ async def test_wounds():
             id="id1",
             username="somebody",
             type=WoundLevel.SEVERE,
-            almost_cured=True
+            almost_cured=True,
         ),
         schema.Wound(
             id="id2",
             username="somebody",
-            type=WoundLevel.LIGHT
+            type=WoundLevel.LIGHT,
         ),
     ]) == -1
 
@@ -48,6 +48,6 @@ async def test_wounds():
             id="id1",
             username="somebody",
             type=WoundLevel.NEAR_DEATH,
-            almost_cured=True
+            almost_cured=True,
         )
     ]) is None

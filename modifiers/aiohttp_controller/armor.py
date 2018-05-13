@@ -1,5 +1,6 @@
 from aiohttp import web
 
+from modifiers.aiohttp_controller import serialization
 from modifiers.model import database
 from modifiers.model.schema import Armor
 
@@ -12,7 +13,7 @@ async def fetch_character(request):
     if not character:
         character = Armor(username=login)
 
-    return web.json_response(character.dict())
+    return web.json_response(character, dumps=serialization.dumps)
 
 
 async def update_character(request: web.Request):

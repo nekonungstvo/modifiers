@@ -1,10 +1,11 @@
+import datetime
 import enum
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
-class WoundLevel(enum.IntEnum):
+class WoundLevel(enum.Enum):
     SCRATCH = 0
     LIGHT = 1
     SEVERE = 2
@@ -12,7 +13,7 @@ class WoundLevel(enum.IntEnum):
     NEAR_DEATH = 4
 
 
-class ArmorType(enum.IntEnum):
+class ArmorType(enum.Enum):
     LIGHT = 0
     MEDIUM = 1
     HEAVY = 2
@@ -26,6 +27,13 @@ class Wound(BaseModel):
 
     description: str = ""
     almost_cured: bool = False
+
+    created_at: datetime.date
+    expire_at: Optional[datetime.date] = None
+
+    @validator("created_at", pre=True, always=True)
+    def set_created_at_today(cls, created_at):
+        return created_at or datetime.date.today()
 
 
 class Armor(BaseModel):
