@@ -15,7 +15,9 @@ def init_db():
     global __client
     __client = AsyncIOMotorClient(MONGO_HOST)
     __client.modifiers["armor"].create_index("username")
-    __client.modifiers["wound"].create_index("username")
+    wound_collection: AgnosticCollection = __client.modifiers["wound"]
+    wound_collection.create_index("username")
+    wound_collection.create_index("expire_at", expireAfterSeconds=0)
 
 
 async def get_db(collection: str) -> AgnosticCollection:
@@ -79,13 +81,7 @@ async def save_wound(wound: schema.Wound) -> None:
     collection = await get_db("wounds")
     await collection.update_one(
         {"_id": ObjectId(wound.id)},
-        {
-            "$set": {
-                "createdAt": wound.created_at,
-                "expireAt": wound.expire_at,
-                **wound.dict(exclude={"id"}),
-            }
-        },
+        {"$set": wound.dict(exclude={"id"})},
         upsert=True
     )
 
