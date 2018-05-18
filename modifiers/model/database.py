@@ -15,7 +15,7 @@ def init_db():
     global __client
     __client = AsyncIOMotorClient(MONGO_HOST)
     __client.modifiers["armor"].create_index("username")
-    wound_collection: AgnosticCollection = __client.modifiers["wound"]
+    wound_collection: AgnosticCollection = __client.modifiers["wounds"]
     wound_collection.create_index("username")
     wound_collection.create_index("expire_at", expireAfterSeconds=0)
 
