@@ -29,6 +29,7 @@ class Wound(BaseModel):
     almost_cured: bool = False
 
     created_at: datetime.datetime
+    almost_cured_at: Optional[datetime.datetime] = None
     expire_at: Optional[datetime.datetime] = None
 
     @validator("created_at", pre=True, always=True)
